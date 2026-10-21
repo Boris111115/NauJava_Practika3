@@ -2,6 +2,7 @@ package ru.boris.naujava.service;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
+import ru.boris.naujava.config.AppConfig;
 import ru.boris.naujava.dao.PatientTransferRepository;
 import ru.boris.naujava.entity.PatientTransfer;
 
@@ -12,15 +13,26 @@ public class PatientTransferServiceImpl
         implements PatientTransferService {
 
     private final PatientTransferRepository repository;
+    private final AppConfig appConfig;
 
     public PatientTransferServiceImpl(
-            PatientTransferRepository repository) {
+            PatientTransferRepository repository,
+            AppConfig appConfig) {
 
         this.repository = repository;
+        this.appConfig = appConfig;
     }
 
     @PostConstruct
     public void init() {
+        System.out.println(
+                "Название приложения: " + appConfig.getAppName()
+        );
+
+        System.out.println(
+                "Версия приложения: " + appConfig.getAppVersion()
+        );
+
         System.out.println(
                 "Сервис PatientTransferService успешно инициализирован."
         );
@@ -78,6 +90,18 @@ public class PatientTransferServiceImpl
             String hospitalName,
             String status,
             int transferTimeMinutes) {
+
+        if (id == null) {
+            throw new IllegalArgumentException(
+                    "ID не может быть null."
+            );
+        }
+
+        if (patientId == null || patientId.isBlank()) {
+            throw new IllegalArgumentException(
+                    "ID пациента не может быть пустым."
+            );
+        }
 
         if (transferTimeMinutes < 0) {
             throw new IllegalArgumentException(

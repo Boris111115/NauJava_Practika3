@@ -1,4 +1,3 @@
-
 package ru.boris.naujava.config;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -24,21 +23,18 @@ public class AppConfig {
     @Value("${app.version}")
     private String appVersion;
 
+    public String getAppName() {
+        return appName;
+    }
+
+    public String getAppVersion() {
+        return appVersion;
+    }
+
     @Bean
     @Scope(value = BeanDefinition.SCOPE_SINGLETON)
     public List<PatientTransfer> patientTransferContainer() {
         return new ArrayList<>();
-    }
-
-    @Bean
-    public String applicationInfo() {
-        String info =
-                "Название приложения: " + appName +
-                        ", версия: " + appVersion;
-
-        System.out.println(info);
-
-        return info;
     }
 
     @Bean
