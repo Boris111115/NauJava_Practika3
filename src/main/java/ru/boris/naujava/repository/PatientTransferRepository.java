@@ -1,6 +1,8 @@
 
 package ru.boris.naujava.repository;
 
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -8,6 +10,7 @@ import ru.boris.naujava.entity.PatientTransfer;
 
 import java.util.List;
 
+@RepositoryRestResource(path = "patient-transfers")
 public interface PatientTransferRepository
         extends JpaRepository<PatientTransfer, Long> {
 
