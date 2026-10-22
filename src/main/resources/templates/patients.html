@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Список пациентов</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 32px; color: #222; }
+        h1 { margin-bottom: 20px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #bbb; padding: 10px; text-align: left; }
+        th { background: #edf2f7; }
+        tr:nth-child(even) { background: #f8fafc; }
+    </style>
+</head>
+<body>
+<h1>Список пациентов</h1>
+<table>
+    <thead><tr>
+        <th>ID</th><th>ФИО</th><th>Дата рождения</th>
+        <th>Номер страховки</th><th>Группа крови</th>
+    </tr></thead>
+    <tbody>
+    <tr th:each="patient : ${patients}">
+        <td th:text="${patient.id}"></td>
+        <td th:text="${patient.fullName}"></td>
+        <td th:text="${patient.birthDate}"></td>
+        <td th:text="${patient.insuranceNumber}"></td>
+        <td th:text="${patient.bloodType}"></td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(patients)}"><td colspan="5">Пациенты не найдены</td></tr>
+    </tbody>
+</table>
+</body>
+</html>
