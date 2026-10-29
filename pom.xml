@@ -19,7 +19,7 @@
 
     <name>NauJava</name>
     <description>
-        Практическая работа № 5. Spring Web, REST API.
+        Практические работы № 5–6. Spring Web, REST API, Spring Security.
         Система контроля передачи пациента от СМП в стационар.
     </description>
 
@@ -66,6 +66,12 @@
             <version>2.8.13</version>
         </dependency>
 
+        <!-- Spring Security -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
         <!-- Тестирование -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -94,12 +100,10 @@
 
     <build>
         <plugins>
-
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-
         </plugins>
     </build>
 
