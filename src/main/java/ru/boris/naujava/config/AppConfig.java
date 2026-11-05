@@ -1,8 +1,10 @@
+
 package ru.boris.naujava.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
@@ -30,7 +32,6 @@ public class AppConfig {
 
     @Bean
     public String applicationInfo() {
-
         String info =
                 "Название приложения: " + appName +
                         ", версия: " + appVersion;
@@ -41,13 +42,16 @@ public class AppConfig {
     }
 
     @Bean
+    @ConditionalOnProperty(
+            name = "app.console.enabled",
+            havingValue = "true",
+            matchIfMissing = true
+    )
     public CommandLineRunner commandScanner(
             CommandProcessor commandProcessor) {
 
         return args -> {
-
             try (Scanner scanner = new Scanner(System.in)) {
-
                 System.out.println();
                 System.out.println(
                         "Система контроля передачи пациентов СМП"
@@ -60,17 +64,12 @@ public class AppConfig {
                 );
 
                 while (true) {
-
                     System.out.print("> ");
 
                     String input = scanner.nextLine();
 
                     if ("exit".equalsIgnoreCase(input.trim())) {
-
-                        System.out.println(
-                                "Выход из программы..."
-                        );
-
+                        System.out.println("Выход из программы...");
                         break;
                     }
 
