@@ -26,3 +26,4 @@ public class RestExceptionHandler {
                 .body(new ApiError(message));
     }
 }
+
