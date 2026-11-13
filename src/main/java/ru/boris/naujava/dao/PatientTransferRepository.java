@@ -6,7 +6,7 @@ import ru.boris.naujava.entity.PatientTransfer;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Component("legacyPatientTransferRepository")
 public class PatientTransferRepository
         implements CrudRepository<PatientTransfer, Long> {
 
