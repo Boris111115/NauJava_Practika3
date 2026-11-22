@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import ru.boris.naujava.entity.Hospital;
 import ru.boris.naujava.entity.PatientTransfer;
+import java.util.UUID;
 
 import java.util.List;
 
@@ -51,8 +52,10 @@ class PatientTransferRepositoryTest {
 
     @Test
     void findByHospitalNameUsingQueryShouldReturnMatchingTransfers() {
+        String uniqueHospitalName = UUID.randomUUID().toString();
+
         Hospital hospital = new Hospital();
-        hospital.setName("Test Hospital");
+        hospital.setName(uniqueHospitalName);
         hospital.setAddress("Test Address");
 
         Hospital savedHospital = hospitalRepository.saveAndFlush(hospital);
@@ -60,7 +63,7 @@ class PatientTransferRepositoryTest {
         PatientTransfer transfer = new PatientTransfer();
         transfer.setPatientId("TEST-P003");
         transfer.setAmbulanceNumber("AMB-03");
-        transfer.setHospitalName("Test Hospital");
+        transfer.setHospitalName(uniqueHospitalName);
         transfer.setStatus("IN_PROGRESS");
         transfer.setTransferTimeMinutes(10);
         transfer.setHospital(savedHospital);
@@ -68,12 +71,12 @@ class PatientTransferRepositoryTest {
         transferRepository.saveAndFlush(transfer);
 
         List<PatientTransfer> result =
-                transferRepository.findByHospitalNameUsingQuery("test hosp");
+                transferRepository.findByHospitalNameUsingQuery(uniqueHospitalName);
 
         assertEquals(1, result.size());
         assertEquals("TEST-P003", result.get(0).getPatientId());
         assertEquals(
-                "Test Hospital",
+                uniqueHospitalName,
                 result.get(0).getHospital().getName()
         );
     }

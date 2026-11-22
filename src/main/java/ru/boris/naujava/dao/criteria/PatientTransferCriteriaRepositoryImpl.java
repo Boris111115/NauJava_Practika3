@@ -17,6 +17,7 @@ public class PatientTransferCriteriaRepositoryImpl implements PatientTransferCri
     @PersistenceContext
     private EntityManager entityManager;
 
+    @Override
     public List<PatientTransfer> findByPatientId(String patientId) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<PatientTransfer> query =
@@ -29,6 +30,7 @@ public class PatientTransferCriteriaRepositoryImpl implements PatientTransferCri
         return entityManager.createQuery(query).getResultList();
     }
 
+    @Override
     public List<PatientTransfer> findByStatus(String status) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<PatientTransfer> query =
@@ -41,6 +43,23 @@ public class PatientTransferCriteriaRepositoryImpl implements PatientTransferCri
         return entityManager.createQuery(query).getResultList();
     }
 
+    @Override
+    public List<PatientTransfer> findByStatusAndTransferTimeMinutesBetween(
+            String status, int minMinutes, int maxMinutes) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<PatientTransfer> query =
+                cb.createQuery(PatientTransfer.class);
+        Root<PatientTransfer> pt = query.from(PatientTransfer.class);
+
+        query.select(pt).where(cb.and(
+                cb.equal(pt.get("status"), status),
+                cb.between(pt.get("transferTimeMinutes"), minMinutes, maxMinutes)
+        ));
+
+        return entityManager.createQuery(query).getResultList();
+    }
+
+    @Override
     public List<PatientTransfer> findByHospitalName(String name) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<PatientTransfer> query =

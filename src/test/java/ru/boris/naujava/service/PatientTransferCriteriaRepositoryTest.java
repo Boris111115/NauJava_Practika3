@@ -12,8 +12,11 @@ import ru.boris.naujava.dao.criteria.PatientTransferCriteriaRepository;
 import ru.boris.naujava.repository.PatientTransferRepository;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(properties = "app.console.enabled=false")
 @Transactional
@@ -60,6 +63,39 @@ class PatientTransferCriteriaRepositoryTest {
     }
 
     @Test
+    void findByStatusAndTransferTimeMinutesBetweenShouldReturnOnlyMatchingTransfers() {
+        String uniqueId = UUID.randomUUID().toString();
+        String matchingPatientId = "CRITERIA-RANGE-IN-" + uniqueId;
+        String outsideRangePatientId = "CRITERIA-RANGE-OUT-" + uniqueId;
+        String differentStatusPatientId = "CRITERIA-RANGE-STATUS-" + uniqueId;
+
+        transferRepository.saveAndFlush(
+                createTransfer(matchingPatientId, "IN_PROGRESS", "Range Hospital", 30)
+        );
+        transferRepository.saveAndFlush(
+                createTransfer(outsideRangePatientId, "IN_PROGRESS", "Range Hospital", 90)
+        );
+        transferRepository.saveAndFlush(
+                createTransfer(differentStatusPatientId, "COMPLETED", "Range Hospital", 30)
+        );
+
+        List<PatientTransfer> result =
+                criteriaRepository.findByStatusAndTransferTimeMinutesBetween(
+                        "IN_PROGRESS", 10, 50
+                );
+
+        assertTrue(result.stream().anyMatch(
+                transfer -> matchingPatientId.equals(transfer.getPatientId())
+        ));
+        assertFalse(result.stream().anyMatch(
+                transfer -> outsideRangePatientId.equals(transfer.getPatientId())
+        ));
+        assertFalse(result.stream().anyMatch(
+                transfer -> differentStatusPatientId.equals(transfer.getPatientId())
+        ));
+    }
+
+    @Test
     void findByHospitalNameShouldReturnMatchingTransfers() {
         Hospital hospital = new Hospital();
         hospital.setName("Criteria Central Hospital");
@@ -95,13 +131,21 @@ class PatientTransferCriteriaRepositoryTest {
             String patientId,
             String status,
             String hospitalName) {
+        return createTransfer(patientId, status, hospitalName, 10);
+    }
+
+    private PatientTransfer createTransfer(
+            String patientId,
+            String status,
+            String hospitalName,
+            int transferTimeMinutes) {
 
         PatientTransfer transfer = new PatientTransfer();
         transfer.setPatientId(patientId);
         transfer.setAmbulanceNumber("AMB-TEST");
         transfer.setHospitalName(hospitalName);
         transfer.setStatus(status);
-        transfer.setTransferTimeMinutes(10);
+        transfer.setTransferTimeMinutes(transferTimeMinutes);
 
         return transfer;
     }
