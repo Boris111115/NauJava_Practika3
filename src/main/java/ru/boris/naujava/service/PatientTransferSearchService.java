@@ -3,7 +3,7 @@ package ru.boris.naujava.service;
 
 import org.springframework.stereotype.Service;
 import ru.boris.naujava.entity.PatientTransfer;
-import ru.boris.naujava.repository.PatientTransferCriteriaRepository;
+import ru.boris.naujava.dao.criteria.PatientTransferCriteriaRepository;
 import ru.boris.naujava.repository.PatientTransferRepository;
 
 import java.util.List;

@@ -1,5 +1,5 @@
 
-package ru.boris.naujava.repository;
+package ru.boris.naujava.dao.criteria;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -12,7 +12,7 @@ import ru.boris.naujava.entity.AmbulanceTeam;
 import java.util.List;
 
 @Repository
-public class AmbulanceTeamCriteriaRepository {
+public class AmbulanceTeamCriteriaRepositoryImpl implements AmbulanceTeamCriteriaRepository {
 
     @PersistenceContext
     private EntityManager entityManager;

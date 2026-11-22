@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.boris.naujava.entity.Hospital;
 import ru.boris.naujava.entity.PatientTransfer;
 import ru.boris.naujava.repository.HospitalRepository;
-import ru.boris.naujava.repository.PatientTransferCriteriaRepository;
+import ru.boris.naujava.dao.criteria.PatientTransferCriteriaRepository;
 import ru.boris.naujava.repository.PatientTransferRepository;
 
 import java.util.List;

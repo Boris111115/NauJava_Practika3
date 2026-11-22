@@ -1,4 +1,4 @@
-package ru.boris.naujava.repository;
+package ru.boris.naujava.dao.criteria;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -11,7 +11,7 @@ import ru.boris.naujava.entity.MedicalStaff;
 import java.util.List;
 
 @Repository
-public class MedicalStaffCriteriaRepository {
+public class MedicalStaffCriteriaRepositoryImpl implements MedicalStaffCriteriaRepository {
 
     @PersistenceContext
     private EntityManager entityManager;

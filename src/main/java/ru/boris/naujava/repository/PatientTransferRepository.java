@@ -14,6 +14,11 @@ public interface PatientTransferRepository
     // Derived Query
     List<PatientTransfer> findByPatientId(String patientId);
 
+    // Составной Derived Query: AND + BETWEEN
+    List<PatientTransfer> findByStatusAndTransferTimeMinutesBetween(
+            String status, int minMinutes, int maxMinutes
+    );
+
     // JPQL: поиск через связанную сущность Hospital
     @Query("""
            SELECT pt

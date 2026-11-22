@@ -2,16 +2,12 @@
 package ru.boris.naujava.config;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
 import ru.boris.naujava.console.CommandProcessor;
-import ru.boris.naujava.entity.PatientTransfer;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -23,12 +19,6 @@ public class AppConfig {
 
     @Value("${app.version}")
     private String appVersion;
-
-    @Bean
-    @Scope(value = BeanDefinition.SCOPE_SINGLETON)
-    public List<PatientTransfer> patientTransferContainer() {
-        return new ArrayList<>();
-    }
 
     @Bean
     public String applicationInfo() {

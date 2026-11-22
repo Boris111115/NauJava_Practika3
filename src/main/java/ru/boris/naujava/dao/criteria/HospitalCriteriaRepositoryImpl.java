@@ -1,5 +1,5 @@
 
-package ru.boris.naujava.repository;
+package ru.boris.naujava.dao.criteria;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -12,7 +12,7 @@ import ru.boris.naujava.entity.Hospital;
 import java.util.List;
 
 @Repository
-public class HospitalCriteriaRepository {
+public class HospitalCriteriaRepositoryImpl implements HospitalCriteriaRepository {
 
     @PersistenceContext
     private EntityManager entityManager;
