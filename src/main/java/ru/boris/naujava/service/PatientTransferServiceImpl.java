@@ -2,7 +2,7 @@ package ru.boris.naujava.service;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
-import ru.boris.naujava.dao.PatientTransferRepository;
+import ru.boris.naujava.repository.PatientTransferRepository;
 import ru.boris.naujava.entity.PatientTransfer;
 
 import java.util.List;
@@ -15,7 +15,6 @@ public class PatientTransferServiceImpl
 
     public PatientTransferServiceImpl(
             PatientTransferRepository repository) {
-
         this.repository = repository;
     }
 
@@ -62,12 +61,12 @@ public class PatientTransferServiceImpl
                 transferTimeMinutes
         );
 
-        repository.create(transfer);
+        repository.save(transfer);
     }
 
     @Override
     public PatientTransfer findById(Long id) {
-        return repository.read(id);
+        return repository.findById(id).orElse(null);
     }
 
     @Override
@@ -78,6 +77,12 @@ public class PatientTransferServiceImpl
             String hospitalName,
             String status,
             int transferTimeMinutes) {
+
+        if (id == null) {
+            throw new IllegalArgumentException(
+                    "ID не может быть null."
+            );
+        }
 
         if (transferTimeMinutes < 0) {
             throw new IllegalArgumentException(
@@ -94,12 +99,12 @@ public class PatientTransferServiceImpl
                 transferTimeMinutes
         );
 
-        repository.update(transfer);
+        repository.save(transfer);
     }
 
     @Override
     public void deleteById(Long id) {
-        repository.delete(id);
+        repository.deleteById(id);
     }
 
     @Override
@@ -109,8 +114,8 @@ public class PatientTransferServiceImpl
 
     @Override
     public boolean isTransferDelayed(Long id) {
-
-        PatientTransfer transfer = repository.read(id);
+        PatientTransfer transfer =
+                repository.findById(id).orElse(null);
 
         if (transfer == null) {
             throw new IllegalArgumentException(
